@@ -1,9 +1,9 @@
 extern crate uinput;
 
-use std::thread;
+use std::thread::sleep;
 use std::time::Duration;
 use uinput::event::controller::Controller::Mouse;
-use uinput::event::controller::Mouse::Left;
+use uinput::event::controller::Mouse::{Left, Middle, Right};
 use uinput::event::Event::{Controller, Relative};
 use uinput::event::relative::Position::{X, Y};
 use uinput::event::relative::Relative::Position;
@@ -16,11 +16,14 @@ fn main() {
 		.event(Relative(Position(Y))).unwrap()
 		.create().unwrap();
 
-	for _ in 1..10 {
-		thread::sleep(Duration::from_secs(1));
+	for _ in 1..4 {
+		sleep(Duration::from_secs(1));
 
-		device.send(X, 50).unwrap();
-		device.send(Y, 50).unwrap();
-		device.synchronize().unwrap();
+		// device.click(&Mouse(Left));
+
+		device.send(X, 50);
+		device.synchronize();
+		device.send(Y, 50);
+		device.synchronize();
 	}
 }

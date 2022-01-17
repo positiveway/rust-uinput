@@ -128,6 +128,12 @@ impl Code for Mouse {
 	}
 }
 
+impl Kind for Mouse {
+	fn kind(&self) -> c_int {
+		EV_KEY
+	}
+}
+
 custom_derive! {
 	#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug, IterVariants(JoyStickVariants))]
 	pub enum JoyStick {

@@ -55,6 +55,9 @@ impl Code for Keyboard {
 custom_derive! {
 	#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug, IterVariants(KeyVariants))]
 	pub enum Key {
+		LeftMouse,
+		RightMouse,
+		MiddleMouse,
 		Reserved,
 		Esc,
 		_1,
@@ -178,6 +181,9 @@ impl Kind for Key {
 impl Code for Key {
 	fn code(&self) -> c_int {
 		match self {
+			&Key::LeftMouse        => BTN_LEFT,
+			&Key::RightMouse       => BTN_RIGHT,
+			&Key::MiddleMouse      => BTN_MIDDLE,
 			&Key::Reserved         => KEY_RESERVED,
 			&Key::Esc              => KEY_ESC,
 			&Key::_1               => KEY_1,
