@@ -6,12 +6,10 @@ use ffi::*;
 use {Result as Res, event};
 use device::Builder;
 use event::{Kind, Code, Keyboard, ButtonsVec};
-use Event::{Controller, Relative};
-use event::Controller::Mouse;
 use event::controller::Mouse::{Left, Middle, Right};
 use event::keyboard::Key;
-use event::Relative::Position;
 use event::relative::Position::{X, Y};
+use event::relative::Wheel;
 
 
 /// The virtual device.
@@ -31,11 +29,13 @@ impl Device {
         let mut _device = Builder::default().unwrap()
             .name("fakeinputs").unwrap()
             .event(Keyboard::All).unwrap()
-            .event(Controller(Mouse(Left))).unwrap() // It's necessary to enable any mouse button. Otherwise Relative events would not work.
-            .event(Controller(Mouse(Right))).unwrap()
-            .event(Controller(Mouse(Middle))).unwrap()
-            .event(Relative(Position(X))).unwrap()
-            .event(Relative(Position(Y))).unwrap()
+            .event(Left).unwrap() // It's necessary to enable any mouse button. Otherwise Relative events would not work.
+            .event(Right).unwrap()
+            .event(Middle).unwrap()
+            .event(X).unwrap()
+            .event(Y).unwrap()
+            .event(Wheel::Vertical).unwrap()
+            .event(Wheel::Horizontal).unwrap()
             .create().unwrap();
         _device
     }
@@ -109,10 +109,6 @@ impl Device {
         }
     }
 
-    // Send a relative or absolute positioning event.
-    // pub fn position<T: Kind + Code>(self, event: &T, value: i32) {
-    //     self.write_event(event, value);
-    // }
 }
 
 impl Drop for Device {
